@@ -1,872 +1,1471 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ÉLÉGANCE | Elevate Your Style</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            gold: '#D4AF37',
-            coral: '#FF6B6B',
-          },
-          fontFamily: {
-            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
-            sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
-          },
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER — Experimental High-Streetwear</title>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════════════════════╗
+    ║  AETHER: Avant-Garde Streetwear Landing Page                                ║
+    ║  Architecture: Single-file HTML5 / Tailwind CSS (CDN) / Vanilla JS          ║
+    ║  Portfolio Focus: Complex CSS layouts, custom animations, non-standard grids ║
+    ╚══════════════════════════════════════════════════════════════════════════════╝
+    -->
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter (System UI Sans) + JetBrains Mono (Monospace) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aether-black': '#0C0C0C',
+                        'aether-charcoal': '#141414',
+                        'aether-green': '#C8FF00',
+                        'aether-white': '#F5F5F5',
+                        'aether-gray': '#8A8A8A',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                }
+            }
         }
-      }
-    }
-  </script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    </script>
 
-    html {
-      scroll-behavior: smooth;
-    }
+    <style>
+        /* ══════════════════════════════════════════════════════════════════════════
+           BASE STYLES & CUSTOM PROPERTIES
+           ══════════════════════════════════════════════════════════════════════════ */
+        :root {
+            --aether-black: #0C0C0C;
+            --aether-charcoal: #141414;
+            --aether-green: #C8FF00;
+            --aether-white: #F5F5F5;
+            --aether-gray: #8A8A8A;
+        }
 
-    body {
-      font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      overflow-x: hidden;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .font-serif {
-      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    .font-sans {
-      font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
+        body {
+            background-color: var(--aether-black);
+            color: var(--aether-white);
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
 
-    .nav-scrolled {
-      background: rgba(255, 255, 255, 0.98) !important;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-    }
+        /* ══════════════════════════════════════════════════════════════════════════
+           CUSTOM SCROLLBAR STYLING
+           ══════════════════════════════════════════════════════════════════════════ */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
 
-    .nav-scrolled .nav-link {
-      color: #000 !important;
-    }
+        ::-webkit-scrollbar-track {
+            background: var(--aether-black);
+        }
 
-    .nav-scrolled .logo-text {
-      color: #000 !important;
-    }
+        ::-webkit-scrollbar-thumb {
+            background: var(--aether-green);
+            border-radius: 3px;
+        }
 
-    .nav-link {
-      position: relative;
-    }
+        /* ══════════════════════════════════════════════════════════════════════════
+           SCANLINE SUBTLE OVERLAY
+           ══════════════════════════════════════════════════════════════════════════ */
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+        }
 
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: currentColor;
-      transition: width 0.3s ease;
-    }
+        /* ══════════════════════════════════════════════════════════════════════════
+           IMAGE WITH FALLBACK
+           ══════════════════════════════════════════════════════════════════════════ */
+        .img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-    .nav-link:hover::after {
-      width: 100%;
-    }
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease, opacity 0.4s ease;
+        }
 
-    .hero-section {
-      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%),
-        url('https://picsum.photos/seed/elegance1/1920/1080') center/cover no-repeat;
-      min-height: 100vh;
-    }
+        .img-wrapper img.loading {
+            opacity: 0;
+        }
 
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
+        /* Fallback gradient shown while loading or if image fails */
+        .img-fallback {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #1f1f1f 0%, #141414 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: -1;
+        }
 
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        .img-fallback::after {
+            content: '';
+            width: 40%;
+            height: 60%;
+            background: #252525;
+            clip-path: polygon(25% 0%, 75% 0%, 80% 5%, 75% 5%, 75% 100%, 25% 100%, 25% 5%, 20% 5%);
+        }
 
-    .product-card:hover .product-img {
-      transform: scale(1.08);
-    }
+        /* ══════════════════════════════════════════════════════════════════════════
+           NAVIGATION: FLOAT-CENTER PILL NAV BAR
+           ══════════════════════════════════════════════════════════════════════════ */
+        .nav-container {
+            position: fixed;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    .product-card:hover .quick-add {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        .nav-pill {
+            background: rgba(12, 12, 12, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            padding: 0.875rem 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    .product-card:hover .wishlist-btn {
-      opacity: 1;
-    }
+        .nav-container.scrolled .nav-pill {
+            padding: 0.625rem 2rem;
+            background: rgba(12, 12, 12, 0.95);
+            border-color: rgba(200, 255, 0, 0.2);
+        }
 
-    .category-card:hover img {
-      transform: scale(1.1);
-    }
+        .nav-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            color: var(--aether-white);
+        }
 
-    .scroll-indicator {
-      animation: bounce 2s infinite;
-    }
+        .nav-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--aether-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(10px); }
-      60% { transform: translateY(5px); }
-    }
+        .nav-link:hover {
+            color: var(--aether-green);
+        }
 
-    .instagram-item:hover img {
-      transform: scale(1.1);
-    }
+        .nav-cart {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: var(--aether-green);
+        }
 
-    .instagram-item:hover .instagram-overlay {
-      opacity: 1;
-    }
+        /* ══════════════════════════════════════════════════════════════════════════
+           HERO SECTION: CINEMATIC FASHION EDITORIAL
+           ══════════════════════════════════════════════════════════════════════════ */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, #0C0C0C 0%, #141414 100%);
+            overflow: hidden;
+        }
 
-    .star-rating {
-      color: #D4AF37;
-    }
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 2rem;
+            padding: 8rem 4rem 4rem;
+            min-height: 90vh;
+            align-items: center;
+        }
 
-    .color-swatch {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 1px solid #ddd;
-    }
+        .hero-left {
+            text-align: right;
+            padding-right: 2rem;
+        }
 
-    .color-swatch.active {
-      border: 2px solid #000;
-    }
+        .hero-center {
+            position: relative;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    input:focus, button:focus {
-      outline: none;
-    }
+        .hero-right {
+            text-align: left;
+            padding-left: 2rem;
+        }
 
-    .hamburger-line {
-      transition: all 0.3s ease;
-    }
+        .volume-label {
+            position: absolute;
+            top: 6rem;
+            left: 4rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            color: var(--aether-green);
+        }
 
-    .menu-open .hamburger-line:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
+        .hero-title-large {
+            font-weight: 300;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            color: var(--aether-white);
+        }
 
-    .menu-open .hamburger-line:nth-child(2) {
-      opacity: 0;
-    }
+        .hero-title-accent {
+            font-weight: 700;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            color: var(--aether-green);
+            display: block;
+        }
 
-    .menu-open .hamburger-line:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
+        .hero-tagline {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            color: var(--aether-gray);
+            text-transform: uppercase;
+        }
 
-    .mobile-menu {
-      transform: translateX(100%);
-      transition: transform 0.4s ease;
-    }
+        .hero-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-    .mobile-menu.open {
-      transform: translateX(0);
-    }
+        .hero-image-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(12,12,12,0.6) 100%);
+        }
 
-    .wishlist-btn {
-      opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .wishlist-btn:hover {
-      transform: scale(1.1);
-    }
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(180deg, var(--aether-green), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
 
-    .quick-add {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.3s ease;
-    }
-  </style>
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.5; transform: scaleY(0.8); }
+        }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           GLITCH HOVER EFFECT
+           ══════════════════════════════════════════════════════════════════════════ */
+        .glitch-btn {
+            position: relative;
+            margin-top: 2.5rem;
+            padding: 1.1rem 2.5rem;
+            background: var(--aether-green);
+            color: var(--aether-black);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .glitch-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--aether-white);
+            transition: left 0.4s ease;
+        }
+
+        .glitch-btn:hover::before {
+            left: 0;
+        }
+
+        .glitch-btn:hover {
+            color: var(--aether-black);
+        }
+
+        .glitch-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           THE DROP CAROUSEL
+           ══════════════════════════════════════════════════════════════════════════ */
+        .drop-section {
+            padding: 8rem 0;
+            background: var(--aether-black);
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            color: var(--aether-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-weight: 300;
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.02em;
+            color: var(--aether-white);
+        }
+
+        .drop-carousel {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 3rem 4vw;
+            scrollbar-width: none;
+        }
+
+        .drop-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .drop-item {
+            flex: 0 0 32vw;
+            min-height: 70vh;
+            scroll-snap-align: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .drop-item-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 900;
+            font-size: clamp(10rem, 18vw, 16rem);
+            color: rgba(255, 255, 255, 0.03);
+            z-index: 0;
+            pointer-events: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .drop-item-image {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 65%;
+            overflow: hidden;
+        }
+
+        .drop-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .drop-item:hover .drop-item-image img {
+            transform: scale(1.05);
+        }
+
+        /* Blueprint overlay on hover */
+        .drop-item-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(90deg, transparent 49.5%, rgba(200,255,0,0.3) 49.5%, rgba(200,255,0,0.3) 50.5%, transparent 50.5%),
+                linear-gradient(0deg, transparent 49.5%, rgba(200,255,0,0.3) 49.5%, rgba(200,255,0,0.3) 50.5%, transparent 50.5%);
+            background-size: 30px 30px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .drop-item:hover .drop-item-image::after {
+            opacity: 1;
+        }
+
+        .drop-item-info {
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .drop-item-name {
+            font-weight: 500;
+            font-size: 1.1rem;
+            letter-spacing: 0.02em;
+            color: var(--aether-white);
+        }
+
+        .drop-item-type {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--aether-gray);
+            margin-top: 0.4rem;
+        }
+
+        .drop-item-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--aether-green);
+        }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           BENTO-GRID CATEGORIES
+           ══════════════════════════════════════════════════════════════════════════ */
+        .bento-section {
+            padding: 6rem 4vw;
+            background: var(--aether-charcoal);
+        }
+
+        .bento-header {
+            margin-bottom: 3rem;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 280px);
+            gap: 1rem;
+        }
+
+        .bento-tile {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .bento-tile:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .bento-tile:nth-child(2) {
+            grid-column: span 1;
+        }
+
+        .bento-tile:nth-child(3) {
+            grid-column: span 1;
+        }
+
+        .bento-tile:nth-child(4) {
+            grid-column: span 2;
+        }
+
+        .bento-tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .bento-tile:hover img {
+            transform: scale(1.08);
+        }
+
+        .bento-tile-inner {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            z-index: 2;
+            background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+        }
+
+        .bento-tile-label {
+            font-weight: 600;
+            font-size: clamp(1.25rem, 2vw, 1.75rem);
+            letter-spacing: -0.01em;
+            color: var(--aether-white);
+            margin-bottom: 0.25rem;
+        }
+
+        .bento-tile-sublabel {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            color: var(--aether-green);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+
+        .bento-tile:hover .bento-tile-sublabel {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bento-tile:hover {
+            box-shadow: 0 0 40px rgba(200, 255, 0, 0.15);
+        }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           PRODUCT MATRIX
+           ══════════════════════════════════════════════════════════════════════════ */
+        .product-section {
+            padding: 8rem 4vw;
+            background: var(--aether-black);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            position: relative;
+            background: var(--aether-charcoal);
+        }
+
+        .product-image {
+            aspect-ratio: 3/4;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .sold-out-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--aether-white);
+            color: var(--aether-black);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 0.8rem;
+        }
+
+        .product-info {
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .product-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            color: var(--aether-white);
+        }
+
+        .product-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--aether-green);
+        }
+
+        .quick-deploy {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            background: var(--aether-green);
+            color: var(--aether-black);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover .quick-deploy {
+            transform: translateY(0);
+        }
+
+        .product-card:hover {
+            box-shadow: 0 0 30px rgba(200, 255, 0, 0.1);
+        }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           BRAND MANIFESTO
+           ══════════════════════════════════════════════════════════════════════════ */
+        .manifesto-section {
+            padding: 6rem 0;
+            overflow: hidden;
+            background: var(--aether-charcoal);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-track {
+            display: inline-flex;
+            animation: marquee 25s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-text {
+            font-weight: 900;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            letter-spacing: 0.08em;
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--aether-white);
+            padding: 0 2.5rem;
+        }
+
+        .marquee-text span {
+            color: var(--aether-green);
+            padding: 0 2.5rem;
+        }
+
+        .manifesto-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+            padding: 6rem 4vw;
+            align-items: center;
+        }
+
+        .manifesto-text {
+            font-weight: 300;
+            font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        .manifesto-text span {
+            color: var(--aether-green);
+            font-weight: 600;
+        }
+
+        .manifesto-statement {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--aether-gray);
+            margin-top: 2rem;
+            font-weight: 300;
+        }
+
+        .manifesto-image {
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(200, 255, 0, 0.2);
+        }
+
+        .manifesto-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .manifesto-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 49%, rgba(200,255,0,0.05) 49%, rgba(200,255,0,0.05) 51%, transparent 51%),
+                        linear-gradient(0deg, transparent 49%, rgba(200,255,0,0.05) 49%, rgba(200,255,0,0.05) 51%, transparent 51%);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           FOOTER
+           ══════════════════════════════════════════════════════════════════════════ */
+        .footer-section {
+            padding: 5rem 4vw;
+            background: var(--aether-black);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-column h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--aether-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.875rem;
+        }
+
+        .footer-column a {
+            color: var(--aether-gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--aether-white);
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--aether-gray);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--aether-green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .back-to-top-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+        }
+
+        .back-to-top-orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(200, 255, 0, 0.3);
+            border-radius: 50%;
+            animation: orbit-rotate 15s linear infinite;
+        }
+
+        @keyframes orbit-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .back-to-top-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 42px;
+            height: 42px;
+            background: var(--aether-green);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top-btn:hover {
+            background: var(--aether-white);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           INTERSECTION OBSERVER ANIMATIONS
+           ══════════════════════════════════════════════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           RESPONSIVE
+           ══════════════════════════════════════════════════════════════════════════ */
+        @media (max-width: 1024px) {
+            .hero-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 7rem 2rem 2rem;
+            }
+
+            .hero-left, .hero-right {
+                text-align: center;
+                padding: 0;
+            }
+
+            .hero-center {
+                height: 50vh;
+                order: -1;
+            }
+
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: auto;
+            }
+
+            .bento-tile {
+                grid-column: span 1 !important;
+                grid-row: span 1 !important;
+                min-height: 220px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .manifesto-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .manifesto-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-pill {
+                gap: 1.5rem;
+                padding: 0.625rem 1.5rem;
+            }
+
+            .nav-link {
+                display: none;
+            }
+
+            .drop-item {
+                flex: 0 0 80vw;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .drop-section, .bento-section, .product-section {
+                padding: 4rem 0;
+            }
+        }
+    </style>
 </head>
-<body class="bg-white text-black">
+<body>
+    <!-- Scanline Overlay -->
+    <div class="scanline-overlay"></div>
 
-  <!-- Navigation Bar -->
-  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-transparent">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
-        <!-- Logo -->
-        <a href="#" class="logo-text text-2xl md:text-3xl font-serif font-semibold text-white tracking-widest">ÉLÉGANCE</a>
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         SECTION 1: DYNAMIC NAVIGATION
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <nav class="nav-container" id="mainNav">
+        <div class="nav-pill">
+            <span class="nav-logo">AETHER</span>
+            <a href="#drops" class="nav-link">[DROPS]</a>
+            <a href="#categories" class="nav-link">[ARCHIVE]</a>
+            <a href="#manifesto" class="nav-link">[LAB]</a>
+            <span class="nav-cart">CART(0)</span>
+        </div>
+    </nav>
 
-        <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center space-x-10">
-          <a href="#" class="nav-link text-white text-sm tracking-wider hover:text-gold transition-colors">NEW IN</a>
-          <a href="#" class="nav-link text-white text-sm tracking-wider hover:text-gold transition-colors">WOMEN</a>
-          <a href="#" class="nav-link text-white text-sm tracking-wider hover:text-gold transition-colors">MEN</a>
-          <a href="#" class="nav-link text-white text-sm tracking-wider hover:text-gold transition-colors">COLLECTIONS</a>
-          <a href="#" class="nav-link text-white text-sm tracking-wider hover:text-coral transition-colors">SALE</a>
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         SECTION 2: CINEMATIC HERO
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <section class="hero-section" id="hero">
+        <div class="volume-label">VOL. 04 / DISTORTION</div>
+
+        <div class="hero-layout">
+            <!-- Left: Title -->
+            <div class="hero-left">
+                <h1 class="hero-title-large reveal">
+                    WEAR<br>
+                    <span class="hero-title-accent">THE</span><br>
+                    FUTURE
+                </h1>
+                <p class="hero-tagline reveal reveal-delay-1">Experimental High-Streetwear — 2026</p>
+            </div>
+
+            <!-- Center: Editorial Image -->
+            <div class="hero-center reveal reveal-delay-2">
+                <div class="hero-image-wrapper">
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"
+                        alt="Fashion editorial model in techwear"
+                        loading="eager"
+                        onerror="this.parentElement.classList.add('error'); this.style.display='none';"
+                    >
+                </div>
+            </div>
+
+            <!-- Right: CTA -->
+            <div class="hero-right">
+                <p style="font-size: 0.9rem; line-height: 1.8; color: var(--aether-gray); font-weight: 300; max-width: 280px;">
+                    Redefining the boundaries between technology and streetwear culture. Each piece engineered for the next generation.
+                </p>
+                <button class="glitch-btn">
+                    <span>ENTER THE LAB</span>
+                </button>
+            </div>
         </div>
 
-        <!-- Icons -->
-        <div class="hidden md:flex items-center space-x-6">
-          <button class="text-white hover:text-gold transition-colors" aria-label="Search">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-          </button>
-          <button class="text-white hover:text-gold transition-colors" aria-label="Account">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-            </svg>
-          </button>
-          <button class="text-white hover:text-gold transition-colors relative" aria-label="Cart">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-            </svg>
-            <span class="absolute -top-2 -right-2 w-5 h-5 bg-gold text-black text-xs flex items-center justify-center rounded-full font-medium">2</span>
-          </button>
+        <!-- Scroll indicator -->
+        <div class="hero-scroll-indicator">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         SECTION 3: THE "DROP" CAROUSEL
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <section class="drop-section" id="drops">
+        <div style="padding: 0 4vw;">
+            <p class="section-label reveal">// FEATURED DROPS</p>
+            <h2 class="section-title reveal reveal-delay-1">Latest Collections</h2>
         </div>
 
-        <!-- Mobile Menu Button -->
-        <button id="menuBtn" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
-          <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
-          <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
-          <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
+        <div class="drop-carousel">
+            <!-- Drop Item 1 -->
+            <div class="drop-item reveal">
+                <span class="drop-item-number">01</span>
+                <div class="drop-item-image">
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80"
+                        alt="Quantum Jacket - Tech Outerwear"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="drop-item-info">
+                    <div>
+                        <h3 class="drop-item-name">QUANTUM JACKET</h3>
+                        <p class="drop-item-type">TECH OUTERWEAR</p>
+                    </div>
+                    <span class="drop-item-price">$485</span>
+                </div>
+            </div>
+
+            <!-- Drop Item 2 -->
+            <div class="drop-item reveal reveal-delay-1">
+                <span class="drop-item-number">02</span>
+                <div class="drop-item-image">
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&q=80"
+                        alt="Void Hoodie - Premium Knitwear"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="drop-item-info">
+                    <div>
+                        <h3 class="drop-item-name">VOID HOODIE</h3>
+                        <p class="drop-item-type">PREMIUM KNITWEAR</p>
+                    </div>
+                    <span class="drop-item-price">$295</span>
+                </div>
+            </div>
+
+            <!-- Drop Item 3 -->
+            <div class="drop-item reveal reveal-delay-2">
+                <span class="drop-item-number">03</span>
+                <div class="drop-item-image">
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80"
+                        alt="Phase Pants - Tech Trousers"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="drop-item-info">
+                    <div>
+                        <h3 class="drop-item-name">PHASE PANTS</h3>
+                        <p class="drop-item-type">TECH TROUSERS</p>
+                    </div>
+                    <span class="drop-item-price">$340</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         SECTION 4: BENTO-GRID CATEGORIES
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <section class="bento-section" id="categories">
+        <div style="padding: 0 4vw;" class="bento-header">
+            <p class="section-label reveal">// CATEGORIES</p>
+            <h2 class="section-title reveal reveal-delay-1">Explore the Collection</h2>
+        </div>
+
+        <div class="bento-grid" style="padding: 0 4vw;">
+            <!-- Outerwear: spans 2x2 -->
+            <div class="bento-tile reveal" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <div class="img-fallback" style="background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);"></div>
+                <img
+                    src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80"
+                    alt="Outerwear Collection"
+                    loading="lazy"
+                    onerror="this.style.display='none';"
+                >
+                <div class="bento-tile-inner">
+                    <h3 class="bento-tile-label">Outerwear</h3>
+                    <p class="bento-tile-sublabel">EXPLORE →</p>
+                </div>
+            </div>
+
+            <!-- Accessories -->
+            <div class="bento-tile reveal reveal-delay-1" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <div class="img-fallback" style="background: linear-gradient(135deg, #1f1f1f 0%, #151515 100%);"></div>
+                <img
+                    src="https://images.unsplash.com/photo-1556306535-0f09a537f0a3?w=600&q=80"
+                    alt="Accessories Collection"
+                    loading="lazy"
+                    onerror="this.style.display='none';"
+                >
+                <div class="bento-tile-inner">
+                    <h3 class="bento-tile-label">Accessories</h3>
+                    <p class="bento-tile-sublabel">EXPLORE →</p>
+                </div>
+            </div>
+
+            <!-- Footwear -->
+            <div class="bento-tile reveal reveal-delay-2" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <div class="img-fallback" style="background: linear-gradient(135deg, #252520 0%, #1a1a18 100%);"></div>
+                <img
+                    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80"
+                    alt="Footwear Collection"
+                    loading="lazy"
+                    onerror="this.style.display='none';"
+                >
+                <div class="bento-tile-inner">
+                    <h3 class="bento-tile-label">Footwear</h3>
+                    <p class="bento-tile-sublabel">EXPLORE →</p>
+                </div>
+            </div>
+
+            <!-- Digital Wearables: spans 2 columns -->
+            <div class="bento-tile reveal reveal-delay-3" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <div class="img-fallback" style="background: linear-gradient(135deg, #1a1a25 0%, #12121a 100%);"></div>
+                <img
+                    src="https://images.unsplash.com/photo-1617802690992-15d93263d3a9?w=800&q=80"
+                    alt="Digital Wearables NFT AR"
+                    loading="lazy"
+                    onerror="this.style.display='none';"
+                >
+                <div class="bento-tile-inner">
+                    <h3 class="bento-tile-label">Digital Wearables</h3>
+                    <p class="bento-tile-sublabel">NFT / AR →</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         SECTION 5: PRODUCT MATRIX
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <section class="product-section" id="products">
+        <div style="padding: 0 4vw; margin-bottom: 3rem;">
+            <p class="section-label reveal">// PRODUCT MATRIX</p>
+            <h2 class="section-title reveal reveal-delay-1">Full Collection</h2>
+        </div>
+
+        <div class="product-grid" style="padding: 0 4vw;">
+            <!-- Product 1 -->
+            <div class="product-card reveal">
+                <div class="product-image">
+                    <span class="sold-out-badge">SOLD OUT</span>
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&q=80"
+                        alt="Nexus Cargo Pants"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">NEXUS CARGO</h3>
+                    <span class="product-price">$265</span>
+                </div>
+                <div class="quick-deploy">QUICK-DEPLOY</div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card reveal reveal-delay-1">
+                <div class="product-image">
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&q=80"
+                        alt="Cipher Long Sleeve"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">CIPHER LONG SLEEVE</h3>
+                    <span class="product-price">$145</span>
+                </div>
+                <div class="quick-deploy">QUICK-DEPLOY</div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card reveal reveal-delay-2">
+                <div class="product-image">
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=500&q=80"
+                        alt="Pulse Beanie"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">PULSE BEANIE</h3>
+                    <span class="product-price">$85</span>
+                </div>
+                <div class="quick-deploy">QUICK-DEPLOY</div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card reveal reveal-delay-3">
+                <div class="product-image">
+                    <span class="sold-out-badge">SOLD OUT</span>
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80"
+                        alt="Vector Jacket"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">VECTOR JACKET</h3>
+                    <span class="product-price">$520</span>
+                </div>
+                <div class="quick-deploy">QUICK-DEPLOY</div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card reveal">
+                <div class="product-image">
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500&q=80"
+                        alt="Matrix Short"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">MATRIX SHORT</h3>
+                    <span class="product-price">$175</span>
+                </div>
+                <div class="quick-deploy">QUICK-DEPLOY</div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card reveal reveal-delay-1">
+                <div class="product-image">
+                    <div class="img-fallback"></div>
+                    <img
+                        src="https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=500&q=80"
+                        alt="Prime Tee"
+                        loading="lazy"
+                        onerror="this.parentElement.querySelector('.img-fallback').style.display='flex'; this.style.display='none';"
+                    >
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">PRIME TEE</h3>
+                    <span class="product-price">$95</span>
+                </div>
+                <div class="quick-deploy">QUICK-DEPLOY</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         SECTION 6: BRAND MANIFESTO
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <section class="manifesto-section" id="manifesto">
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <span class="marquee-text">FORM FOLLOWS FUNCTION <span>—</span></span>
+                <span class="marquee-text">AETHER <span>—</span></span>
+                <span class="marquee-text">SUSTAINABLE TECHWEAR <span>—</span></span>
+                <span class="marquee-text">FORM FOLLOWS FUNCTION <span>—</span></span>
+                <span class="marquee-text">AETHER <span>—</span></span>
+                <span class="marquee-text">SUSTAINABLE TECHWEAR <span>—</span></span>
+            </div>
+        </div>
+
+        <div class="manifesto-content">
+            <div class="manifesto-text reveal">
+                We Build <span>the Future</span> of High-Streetwear
+                <p class="manifesto-statement reveal reveal-delay-1">
+                    AETHER represents the intersection of brutalist design philosophy and sustainable technology.
+                    Every garment is engineered for longevity, crafted with precision, and designed to transcend
+                    seasonal trends. This is fashion for the next generation.
+                </p>
+            </div>
+
+            <div class="manifesto-image reveal reveal-delay-2">
+                <div class="img-fallback" style="background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);"></div>
+                <img
+                    src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
+                    alt="Aether Lab - Fashion Atelier"
+                    loading="lazy"
+                    onerror="this.style.display='none';"
+                >
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         SECTION 7: FOOTER
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <footer class="footer-section">
+        <div class="footer-grid">
+            <!-- System Status -->
+            <div class="footer-column reveal">
+                <h4>SYSTEM STATUS</h4>
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    <span>ALL SYSTEMS OPERATIONAL</span>
+                </div>
+            </div>
+
+            <!-- Connect -->
+            <div class="footer-column reveal reveal-delay-1">
+                <h4>CONNECT</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter / X</a></li>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">TikTok</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal -->
+            <div class="footer-column reveal reveal-delay-2">
+                <h4>LEGAL</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Returns</a></li>
+                </ul>
+            </div>
+
+            <!-- Community -->
+            <div class="footer-column reveal reveal-delay-3">
+                <h4>COMMUNITY</h4>
+                <ul>
+                    <li><a href="#">Membership</a></li>
+                    <li><a href="#">Affiliate Program</a></li>
+                    <li><a href="#">Wholesale</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
+            <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.3);">
+                © 2026 AETHER. ALL RIGHTS RESERVED. CRAFTED IN THE LAB.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Circular Back-to-Top -->
+    <div class="back-to-top-container">
+        <div class="back-to-top-orbit"></div>
+        <button class="back-to-top-btn" onclick="scrollToTop()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 19V5M5 12l7-7 7 7"/>
+            </svg>
         </button>
-      </div>
     </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-white z-50 shadow-2xl">
-      <div class="p-6">
-        <div class="flex justify-between items-center mb-12">
-          <span class="text-2xl font-serif font-semibold tracking-widest">ÉLÉGANCE</span>
-          <button id="closeMenu" class="p-2" aria-label="Close menu">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
-        <div class="flex flex-col space-y-6">
-          <a href="#" class="text-lg tracking-wider hover:text-gold transition-colors">NEW IN</a>
-          <a href="#" class="text-lg tracking-wider hover:text-gold transition-colors">WOMEN</a>
-          <a href="#" class="text-lg tracking-wider hover:text-gold transition-colors">MEN</a>
-          <a href="#" class="text-lg tracking-wider hover:text-gold transition-colors">COLLECTIONS</a>
-          <a href="#" class="text-lg tracking-wider text-coral transition-colors">SALE</a>
-        </div>
-        <div class="flex items-center space-x-6 mt-12 pt-8 border-t border-gray-200">
-          <button class="hover:text-gold transition-colors" aria-label="Search">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-          </button>
-          <button class="hover:text-gold transition-colors" aria-label="Account">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-            </svg>
-          </button>
-          <button class="hover:text-gold transition-colors relative" aria-label="Cart">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-            </svg>
-            <span class="absolute -top-2 -right-2 w-5 h-5 bg-gold text-black text-xs flex items-center justify-center rounded-full font-medium">2</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         JAVASCRIPT
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <script>
+        /* Navigation: Shrink on scroll */
+        const nav = document.getElementById('mainNav');
 
-  <!-- Hero Section -->
-  <section class="hero-section relative flex items-center justify-center">
-    <div class="text-center text-white px-4 max-w-3xl">
-      <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-light mb-6 tracking-wide fade-in">Elevate Your Style</h1>
-      <p class="text-lg md:text-xl font-light tracking-[0.3em] mb-12 uppercase fade-in">Spring/Summer Collection 2026</p>
-      <a href="#" class="inline-block px-10 py-4 border border-white text-white text-sm tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 fade-in">SHOP NOW</a>
-    </div>
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 scroll-indicator">
-      <svg class="w-6 h-10 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 40">
-        <rect x="1" y="1" width="22" height="38" rx="11" stroke-width="2"/>
-        <circle cx="12" cy="12" r="3" fill="currentColor"/>
-      </svg>
-    </div>
-  </section>
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
 
-  <!-- New Arrivals -->
-  <section class="py-20 md:py-28 px-4">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-serif text-center mb-16 tracking-wide fade-in">New Arrivals</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-        <!-- Product 1 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-fashion1/400/533" alt="Silk Blend Blouse" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Silk Blend Blouse</h3>
-          <p class="text-sm text-gray-600">$245</p>
-        </div>
-        <!-- Product 2 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-fashion2/400/533" alt="Tailored Blazer" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Tailored Blazer</h3>
-          <p class="text-sm text-gray-600">$485</p>
-        </div>
-        <!-- Product 3 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-fashion1/400/533" alt="Cashmere Sweater" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Cashmere Sweater</h3>
-          <p class="text-sm text-gray-600">$320</p>
-        </div>
-        <!-- Product 4 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-fashion3/400/533" alt="Wool Trousers" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Wool Trousers</h3>
-          <p class="text-sm text-gray-600">$275</p>
-        </div>
-      </div>
-    </div>
-  </section>
+        /* Intersection Observer: Reveal animations */
+        const revealElements = document.querySelectorAll('.reveal');
 
-  <!-- Featured Collection -->
-  <section class="py-16 md:py-24 bg-neutral-50">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-0 items-center">
-      <div class="relative overflow-hidden fade-in">
-        <img src="https://picsum.photos/seed/elegance-collection/800/1000" alt="The Essentials Collection" class="w-full h-full object-cover">
-      </div>
-      <div class="p-10 md:p-16 lg:p-24 text-center md:text-left fade-in">
-        <p class="text-sm tracking-[0.3em] text-gold mb-4 uppercase">Featured Collection</p>
-        <h2 class="text-4xl md:text-5xl font-serif mb-6 tracking-wide">The Essentials</h2>
-        <p class="text-gray-600 leading-relaxed mb-10">Timeless pieces designed for the modern wardrobe. Crafted from premium materials with meticulous attention to detail, this collection embodies effortless sophistication.</p>
-        <a href="#" class="inline-block px-10 py-4 border border-black text-black text-sm tracking-wider hover:bg-black hover:text-white transition-all duration-300">SHOP COLLECTION</a>
-      </div>
-    </div>
-  </section>
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
+        });
 
-  <!-- Categories -->
-  <section class="py-20 md:py-28 px-4">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-serif text-center mb-16 tracking-wide fade-in">Shop by Category</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        <!-- Women -->
-        <div class="category-card group relative overflow-hidden aspect-[3/4] fade-in cursor-pointer">
-          <img src="https://picsum.photos/seed/elegance-women/600/800" alt="Women" class="w-full h-full object-cover transition-transform duration-700">
-          <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="text-center text-white">
-              <h3 class="text-3xl md:text-4xl font-serif mb-4 tracking-wide">Women</h3>
-              <span class="text-sm tracking-wider border-b border-white pb-1">EXPLORE</span>
-            </div>
-          </div>
-        </div>
-        <!-- Men -->
-        <div class="category-card group relative overflow-hidden aspect-[3/4] fade-in cursor-pointer">
-          <img src="https://picsum.photos/seed/elegance-men/600/800" alt="Men" class="w-full h-full object-cover transition-transform duration-700">
-          <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="text-center text-white">
-              <h3 class="text-3xl md:text-4xl font-serif mb-4 tracking-wide">Men</h3>
-              <span class="text-sm tracking-wider border-b border-white pb-1">EXPLORE</span>
-            </div>
-          </div>
-        </div>
-        <!-- Accessories -->
-        <div class="category-card group relative overflow-hidden aspect-[3/4] fade-in cursor-pointer">
-          <img src="https://picsum.photos/seed/elegance-accessories/600/800" alt="Accessories" class="w-full h-full object-cover transition-transform duration-700">
-          <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="text-center text-white">
-              <h3 class="text-3xl md:text-4xl font-serif mb-4 tracking-wide">Accessories</h3>
-              <span class="text-sm tracking-wider border-b border-white pb-1">EXPLORE</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        revealElements.forEach(el => revealObserver.observe(el));
 
-  <!-- Product Showcase Grid -->
-  <section class="py-20 md:py-28 px-4 bg-neutral-50">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-serif text-center mb-16 tracking-wide fade-in">The Collection</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <!-- Product 1 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-fashion1/400/533" alt="Oversized Coat" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="wishlist-btn absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gold transition-colors" aria-label="Add to wishlist">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button>
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Oversized Coat</h3>
-          <p class="text-sm text-gray-600 mb-2">$890</p>
-          <div class="flex space-x-2">
-            <span class="color-swatch active" style="background-color: #1a1a1a;" aria-label="Black"></span>
-            <span class="color-swatch" style="background-color: #8B4513;" aria-label="Brown"></span>
-            <span class="color-swatch" style="background-color: #D4AF37;" aria-label="Gold"></span>
-          </div>
-        </div>
-        <!-- Product 2 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-fashion2/400/533" alt="Structured Blazer" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="wishlist-btn absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gold transition-colors" aria-label="Add to wishlist">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button>
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Structured Blazer</h3>
-          <p class="text-sm text-gray-600 mb-2">$520</p>
-          <div class="flex space-x-2">
-            <span class="color-swatch active" style="background-color: #2c2c2c;" aria-label="Charcoal"></span>
-            <span class="color-swatch" style="background-color: #F5F5DC;" aria-label="Cream"></span>
-          </div>
-        </div>
-        <!-- Product 3 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-fashion3/400/533" alt="Silk Dress" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="wishlist-btn absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gold transition-colors" aria-label="Add to wishlist">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button>
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Silk Dress</h3>
-          <p class="text-sm text-gray-600 mb-2">$650</p>
-          <div class="flex space-x-2">
-            <span class="color-swatch active" style="background-color: #000000;" aria-label="Black"></span>
-            <span class="color-swatch" style="background-color: #FF6B6B;" aria-label="Coral"></span>
-          </div>
-        </div>
-        <!-- Product 4 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-knit/400/533" alt="Cashmere Knit" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="wishlist-btn absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gold transition-colors" aria-label="Add to wishlist">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button>
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Cashmere Knit</h3>
-          <p class="text-sm text-gray-600 mb-2">$380</p>
-          <div class="flex space-x-2">
-            <span class="color-swatch active" style="background-color: #D4AF37;" aria-label="Gold"></span>
-            <span class="color-swatch" style="background-color: #808080;" aria-label="Grey"></span>
-            <span class="color-swatch" style="background-color: #FFFFFF;" aria-label="White"></span>
-          </div>
-        </div>
-        <!-- Product 5 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-linen/400/533" alt="Linen Shirt" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="wishlist-btn absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gold transition-colors" aria-label="Add to wishlist">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button>
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Linen Shirt</h3>
-          <p class="text-sm text-gray-600 mb-2">$195</p>
-          <div class="flex space-x-2">
-            <span class="color-swatch active" style="background-color: #FFFFFF; border-color: #ddd;" aria-label="White"></span>
-            <span class="color-swatch" style="background-color: #87CEEB;" aria-label="Sky Blue"></span>
-          </div>
-        </div>
-        <!-- Product 6 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-trousers/400/533" alt="Tailored Trousers" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="wishlist-btn absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gold transition-colors" aria-label="Add to wishlist">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button>
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Tailored Trousers</h3>
-          <p class="text-sm text-gray-600 mb-2">$265</p>
-          <div class="flex space-x-2">
-            <span class="color-swatch active" style="background-color: #1a1a1a;" aria-label="Black"></span>
-            <span class="color-swatch" style="background-color: #C4A77D;" aria-label="Tan"></span>
-          </div>
-        </div>
-        <!-- Product 7 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-leather/400/533" alt="Leather Bag" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="wishlist-btn absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gold transition-colors" aria-label="Add to wishlist">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button>
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Leather Bag</h3>
-          <p class="text-sm text-gray-600 mb-2">$780</p>
-          <div class="flex space-x-2">
-            <span class="color-swatch active" style="background-color: #8B4513;" aria-label="Brown"></span>
-            <span class="color-swatch" style="background-color: #000000;" aria-label="Black"></span>
-          </div>
-        </div>
-        <!-- Product 8 -->
-        <div class="product-card group fade-in">
-          <div class="relative overflow-hidden mb-4 bg-gray-100 aspect-[3/4]">
-            <img src="https://picsum.photos/seed/elegance-scarf/400/533" alt="Silk Scarf" class="product-img w-full h-full object-cover transition-transform duration-500">
-            <button class="wishlist-btn absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gold transition-colors" aria-label="Add to wishlist">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button>
-            <button class="quick-add absolute bottom-4 left-4 right-4 py-3 bg-black text-white text-xs tracking-wider hover:bg-gold transition-colors">ADD TO CART</button>
-          </div>
-          <h3 class="text-sm font-medium mb-1">Silk Scarf</h3>
-          <p class="text-sm text-gray-600 mb-2">$195</p>
-          <div class="flex space-x-2">
-            <span class="color-swatch active" style="background-color: #D4AF37;" aria-label="Gold"></span>
-            <span class="color-swatch" style="background-color: #FF6B6B;" aria-label="Coral"></span>
-            <span class="color-swatch" style="background-color: #2c2c2c;" aria-label="Charcoal"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        /* Bento Tilt Effect */
+        function handleTilt(e, element) {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 25;
+            const rotateY = (centerX - x) / 25;
 
-  <!-- Brand Story -->
-  <section class="relative py-32 md:py-48 overflow-hidden">
-    <div class="absolute inset-0">
-      <img src="https://picsum.photos/seed/elegance-brand/1920/800" alt="Brand Story" class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-black/50"></div>
-    </div>
-    <div class="relative z-10 max-w-4xl mx-auto text-center text-white px-4 fade-in">
-      <p class="text-sm tracking-[0.3em] text-gold mb-8 uppercase">Our Philosophy</p>
-      <blockquote class="text-3xl md:text-5xl font-serif font-light leading-relaxed mb-10">
-        "Fashion is not about clothes. It's about a look. It's about how you present yourself to the world. We create pieces that empower you to write your own story."
-      </blockquote>
-      <p class="text-sm tracking-wider border-b border-white pb-1 inline-block cursor-pointer hover:text-gold hover:border-gold transition-colors">OUR STORY</p>
-    </div>
-  </section>
-
-  <!-- Newsletter Section -->
-  <section class="py-20 md:py-28 px-4 border-t border-gray-100">
-    <div class="max-w-xl mx-auto text-center fade-in">
-      <h2 class="text-3xl md:text-4xl font-serif mb-4 tracking-wide">Join the Club</h2>
-      <p class="text-gray-600 mb-10">Get 15% off your first order plus exclusive access to new collections, private sales, and style inspiration.</p>
-      <form id="newsletterForm" class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-        <input type="email" placeholder="Enter your email address" class="flex-1 px-6 py-4 border border-gray-300 text-sm tracking-wide focus:border-black transition-colors" required>
-        <button type="submit" class="px-8 py-4 bg-black text-white text-sm tracking-wider hover:bg-gold transition-colors">SUBSCRIBE</button>
-      </form>
-      <p id="newsletterSuccess" class="hidden text-gold text-sm mt-4">Thank you for subscribing!</p>
-    </div>
-  </section>
-
-  <!-- Instagram Feed -->
-  <section class="py-20 md:py-28 px-4 bg-neutral-50">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-12 fade-in">
-        <p class="text-sm tracking-[0.3em] text-gold mb-4 uppercase">@elegance</p>
-        <h2 class="text-3xl md:text-4xl font-serif tracking-wide">Follow Us on Instagram</h2>
-      </div>
-      <div class="grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-4">
-        <div class="instagram-item relative overflow-hidden aspect-square cursor-pointer fade-in">
-          <img src="https://picsum.photos/seed/elegance-insta1/300/300" alt="Instagram 1" class="w-full h-full object-cover transition-transform duration-500">
-          <div class="instagram-overlay absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 transition-opacity duration-300">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="instagram-item relative overflow-hidden aspect-square cursor-pointer fade-in">
-          <img src="https://picsum.photos/seed/elegance-insta4/300/300" alt="Instagram 2" class="w-full h-full object-cover transition-transform duration-500">
-          <div class="instagram-overlay absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 transition-opacity duration-300">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="instagram-item relative overflow-hidden aspect-square cursor-pointer fade-in">
-          <img src="https://picsum.photos/seed/elegance-insta2/300/300" alt="Instagram 3" class="w-full h-full object-cover transition-transform duration-500">
-          <div class="instagram-overlay absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 transition-opacity duration-300">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="instagram-item relative overflow-hidden aspect-square cursor-pointer fade-in">
-          <img src="https://picsum.photos/seed/elegance-insta5/300/300" alt="Instagram 4" class="w-full h-full object-cover transition-transform duration-500">
-          <div class="instagram-overlay absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 transition-opacity duration-300">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="instagram-item relative overflow-hidden aspect-square cursor-pointer fade-in">
-          <img src="https://picsum.photos/seed/elegance-insta3/300/300" alt="Instagram 5" class="w-full h-full object-cover transition-transform duration-500">
-          <div class="instagram-overlay absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 transition-opacity duration-300">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="instagram-item relative overflow-hidden aspect-square cursor-pointer fade-in">
-          <img src="https://picsum.photos/seed/elegance-insta6/300/300" alt="Instagram 6" class="w-full h-full object-cover transition-transform duration-500">
-          <div class="instagram-overlay absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 transition-opacity duration-300">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-      <p class="text-center mt-12 text-sm tracking-wider text-gold fade-in">FOLLOW @ELEGANCE</p>
-    </div>
-  </section>
-
-  <!-- Reviews -->
-  <section class="py-20 md:py-28 px-4">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-serif text-center mb-16 tracking-wide fade-in">What Our Customers Say</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-        <!-- Review 1 -->
-        <div class="fade-in">
-          <div class="star-rating mb-4 flex space-x-1">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-          </div>
-          <p class="text-gray-600 italic leading-relaxed mb-6">"The quality is absolutely stunning. I bought the tailored blazer and it fits perfectly. The fabric feels luxurious and the construction is impeccable. Worth every penny."</p>
-          <div class="flex items-center">
-            <p class="font-medium text-sm">Sarah M.</p>
-            <svg class="w-4 h-4 text-gold ml-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-            <span class="text-xs text-gray-500 ml-1">Verified Purchase</span>
-          </div>
-        </div>
-        <!-- Review 2 -->
-        <div class="fade-in">
-          <div class="star-rating mb-4 flex space-x-1">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-          </div>
-          <p class="text-gray-600 italic leading-relaxed mb-6">"Fast shipping, beautiful packaging, and the silk dress exceeded my expectations. The attention to detail in the stitching is remarkable. I've already ordered two more pieces."</p>
-          <div class="flex items-center">
-            <p class="font-medium text-sm">Emma L.</p>
-            <svg class="w-4 h-4 text-gold ml-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-            <span class="text-xs text-gray-500 ml-1">Verified Purchase</span>
-          </div>
-        </div>
-        <!-- Review 3 -->
-        <div class="fade-in">
-          <div class="star-rating mb-4 flex space-x-1">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-          </div>
-          <p class="text-gray-600 italic leading-relaxed mb-6">"Finally, a brand that understands understated elegance. The cashmere sweater is so soft and the fit is perfect. I've received so many compliments. This is my new go-to for workwear."</p>
-          <div class="flex items-center">
-            <p class="font-medium text-sm">Jessica R.</p>
-            <svg class="w-4 h-4 text-gold ml-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-            <span class="text-xs text-gray-500 ml-1">Verified Purchase</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-black text-white py-16 md:py-20 px-4">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 mb-16">
-        <!-- Logo -->
-        <div class="col-span-2 md:col-span-1">
-          <a href="#" class="text-2xl font-serif font-semibold tracking-widest">ÉLÉGANCE</a>
-          <p class="text-gray-400 text-sm mt-4 leading-relaxed">Elevating fashion since 2010. Timeless pieces crafted with intention.</p>
-        </div>
-        <!-- Shop -->
-        <div>
-          <h4 class="text-sm font-medium tracking-wider mb-6">SHOP</h4>
-          <ul class="space-y-3">
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">New Arrivals</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Women</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Men</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Accessories</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Sale</a></li>
-          </ul>
-        </div>
-        <!-- Help -->
-        <div>
-          <h4 class="text-sm font-medium tracking-wider mb-6">HELP</h4>
-          <ul class="space-y-3">
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Shipping & Returns</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Size Guide</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">FAQs</a></li>
-          </ul>
-        </div>
-        <!-- About -->
-        <div>
-          <h4 class="text-sm font-medium tracking-wider mb-6">ABOUT</h4>
-          <ul class="space-y-3">
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Our Story</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Sustainability</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Careers</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Press</a></li>
-          </ul>
-        </div>
-        <!-- Stores -->
-        <div>
-          <h4 class="text-sm font-medium tracking-wider mb-6">STORES</h4>
-          <ul class="space-y-3">
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">New York</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Paris</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">London</a></li>
-            <li><a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Tokyo</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Social & Payment -->
-      <div class="border-t border-gray-800 pt-10 flex flex-col md:flex-row justify-between items-center">
-        <div class="flex space-x-6 mb-6 md:mb-0">
-          <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Pinterest">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194 1.317 1.907 2.326 1.907 2.791 0 4.938-2.945 4.938-7.191 0-3.76-2.707-6.364-6.573-6.364-4.477 0-7.099 3.354-7.099 6.819 0 1.35.519 2.796 1.165 3.585.127.157.145.294.109.452-.121.521-.392 1.647-.445 1.876-.064.275-.213.332-.49.199-1.44-.671-2.34-2.78-2.34-4.474 0-3.635 2.642-6.977 7.611-6.977 4.002 0 7.115 2.85 7.115 6.659 0 3.974-2.502 7.168-5.976 7.168-1.167 0-2.266-.607-2.641-1.322l-.715 2.673c-.257.99-.949 2.228-1.411 2.98 1.064.329 2.193.507 3.364.507 6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-        </div>
-        <div class="flex space-x-4">
-          <svg class="w-10 h-6 text-gray-400" viewBox="0 0 40 24"><rect width="40" height="24" rx="3" fill="currentColor" opacity="0.3"/><text x="20" y="16" text-anchor="middle" font-size="10" fill="white">VISA</text></svg>
-          <svg class="w-10 h-6 text-gray-400" viewBox="0 0 40 24"><rect width="40" height="24" rx="3" fill="currentColor" opacity="0.3"/><text x="20" y="16" text-anchor="middle" font-size="8" fill="white">MASTER</text></svg>
-          <svg class="w-10 h-6 text-gray-400" viewBox="0 0 40 24"><rect width="40" height="24" rx="3" fill="currentColor" opacity="0.3"/><text x="20" y="16" text-anchor="middle" font-size="8" fill="white">AMEX</text></svg>
-          <svg class="w-10 h-6 text-gray-400" viewBox="0 0 40 24"><rect width="40" height="24" rx="3" fill="currentColor" opacity="0.3"/><text x="20" y="16" text-anchor="middle" font-size="8" fill="white">PAYPAL</text></svg>
-        </div>
-      </div>
-
-      <!-- Copyright -->
-      <p class="text-center text-gray-500 text-xs mt-10">&copy; 2026 ÉLÉGANCE. All rights reserved. Designed with elegance.</p>
-    </div>
-  </footer>
-
-  <script>
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 100) {
-        navbar.classList.add('nav-scrolled');
-      } else {
-        navbar.classList.remove('nav-scrolled');
-      }
-    });
-
-    // Mobile menu
-    const menuBtn = document.getElementById('menuBtn');
-    const closeMenu = document.getElementById('closeMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.add('open');
-      menuBtn.classList.add('menu-open');
-    });
-
-    closeMenu.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      menuBtn.classList.remove('menu-open');
-    });
-
-    // Close mobile menu when clicking a link
-    mobileMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('open');
-        menuBtn.classList.remove('menu-open');
-      });
-    });
-
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
         }
-      });
-    }, observerOptions);
 
-    document.querySelectorAll('.fade-in').forEach(el => {
-      observer.observe(el);
-    });
+        function resetTilt(element) {
+            element.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        }
 
-    // Newsletter form
-    const newsletterForm = document.getElementById('newsletterForm');
-    const newsletterSuccess = document.getElementById('newsletterSuccess');
+        /* Scroll to top */
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-    newsletterForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      newsletterSuccess.classList.remove('hidden');
-      newsletterForm.reset();
-      setTimeout(() => {
-        newsletterSuccess.classList.add('hidden');
-      }, 5000);
-    });
-
-    // Color swatches interaction
-    document.querySelectorAll('.color-swatch').forEach(swatch => {
-      swatch.addEventListener('click', function() {
-        const parent = this.closest('.flex.space-x-2');
-        parent.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-        this.classList.add('active');
-      });
-    });
-
-    // Add to cart button feedback
-    document.querySelectorAll('.quick-add').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const originalText = this.textContent;
-        this.textContent = 'ADDED!';
-        this.style.backgroundColor = '#D4AF37';
-        setTimeout(() => {
-          this.textContent = originalText;
-          this.style.backgroundColor = '';
-        }, 2000);
-      });
-    });
-  </script>
+        /* Initialize: Check elements in viewport on load */
+        window.addEventListener('load', () => {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    el.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
