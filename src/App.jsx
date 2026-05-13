@@ -103,7 +103,13 @@ function Header() {
           <p>End-to-End Engineer · Enterprise Solutions · SaaS</p>
         </div>
       </div>
-      <SocialLinks variant="icon" />
+      <div className="header-right">
+        <SocialLinks variant="icon" />
+        <a href="https://joecodes.in" target="_blank" rel="noopener" className="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to joecodes.in
+        </a>
+      </div>
     </header>
   )
 }

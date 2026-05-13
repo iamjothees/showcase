@@ -154,6 +154,39 @@ body {
   height: 18px;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(0, 102, 255, 0.08);
+}
+
+.back-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* ─── HERO ─── */
 .hero {
   padding: 4rem 0 5rem;
@@ -712,6 +745,10 @@ footer {
   }
 
   .header-links {
+    display: none;
+  }
+
+  .back-btn {
     display: none;
   }
 
