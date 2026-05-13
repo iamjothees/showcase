@@ -1,9 +1,0 @@
-services:
-  app:
-    container_name: showcase
-    image: showcase:latest
-    volumes:
-      - ./:/var/www/html/public
-    ports:
-      - 8090:80
-    working_dir: /var/www/html
